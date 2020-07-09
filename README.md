@@ -4,7 +4,8 @@
 
   A React-Native mobile app that displays Game Information
   
-  ##To Install:
+##To Install:
+  
   Make sure you have expo-cli installed
   
   Clone or Download the repository
