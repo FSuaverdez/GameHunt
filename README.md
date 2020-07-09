@@ -8,7 +8,7 @@
   Make sure you have expo-cli installed
   Clone or Download the repository
   Go to the proj directory and install using:
-  #npm install
+  ```npm install```
   Start using:
-  #expo start
+  ```expo start```
   
