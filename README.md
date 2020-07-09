@@ -1,10 +1,10 @@
 # GameHunt
-# Powered by RAWG
+# [Powered by RAWG](https://rawg.io/)
 
 
   A React-Native mobile app that displays Game Information
   
-#To Install
+  To Install
   
   Make sure you have expo-cli installed
   
