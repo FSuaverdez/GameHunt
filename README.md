@@ -1,8 +1,16 @@
-# GameHunt
+# GameHunt (Unfinished)
 ## [Powered by RAWG](https://rawg.io/)
 
 
   A React-Native mobile app that displays Game Information
+  Created by:
+  * Frannz Suaverdez
+  * Christopher Napoles
+  * Alvin Lim
+  * Angelo Baclaan
+  * Allen Miguel De Guzman
+  * Juan Miguel Dela Cruz
+  * Crister Palumpon
   
 ###  To Install
   
