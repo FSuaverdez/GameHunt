@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import RAWG from '../api/RAWG';
 
 export default () => {
-    const [results, setResults] = useState([]);
-    const [errorMessage, setErrorMessage] = useState('');
+    const [results, setResults] = useState(null);
+    const [errorMessage, setErrorMessage] = useState(null);
 
     const getTrending = async (size) => {
         try {

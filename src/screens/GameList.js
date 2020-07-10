@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button, Image, FlatList } from 'react-native';
-import useResults from './hooks/useResults'
+import useResults from '../hooks/useResults'
 
 const GameList = ({ navigation, route }) => {
   const item = route.params

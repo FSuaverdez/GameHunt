@@ -1,31 +1,35 @@
 import React from 'react';
-import {StyleSheet,Text,View} from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 
-const Card = (props)=>{
-    return(
-        <View style = {styles.card}>
-            <View style ={styles.cardContent}>
-                {props.children}
-            </View>
+const GameCard = ({ item, navigation }) => {
+    return (
+        <View>
+            <TouchableOpacity activeOpacity={0.5} onPress={() => {
+                navigation.navigate('GameScreen', item);
+            }}>
+                <Image source={{ uri: item.background_image }} style={styles.image} />
+                <Text style={styles.txt2}>{item.name}</Text>
+
+            </TouchableOpacity>
         </View>
     );
 }
-const styles=StyleSheet.create({
-    card:{
-        borderRadius:6,
-        elevation:3,
-        backgroundColor:'gray',
-        shadowOffset:{width:1,height:1},
-        shadowColor:'#fff',
-        shadowOpacity:0.3,
-        shadowRadius:2,
-        marginHorizontal:4,
-        marginVertical:6
+const styles = StyleSheet.create({
+    txt: {
+        color: '#fff',
+        fontSize: 30,
     },
-    
-    cardContent:{
-        marginHorizontal:18,
-        marginVertical:20,
+    txt2: {
+        color: 'white',
+        fontSize: 15,
+        alignSelf: 'center',
+        marginHorizontal: 5
+    },
+    image: {
+        height: 100,
+        width: 200,
+        marginHorizontal: 5,
+        borderRadius: 20,
     }
-})
-export default Card;
+});
+export default GameCard;

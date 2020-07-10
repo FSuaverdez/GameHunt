@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { ScrollView, StyleSheet, Text, View, Button, Image, FlatList } from 'react-native';
-import useResults from './hooks/useResults';
+import useResults from '../hooks/useResults';
 import { Video } from 'expo-av';
-import RAWG from './api/RAWG';
+import RAWG from '../api/RAWG';
 
 const GameScreen = ({ navigation, route }) => {
 
@@ -20,17 +20,18 @@ const GameScreen = ({ navigation, route }) => {
     setScreens(response.data.results);
   };
 
+  const isFocused = navigation.isFocused();
 
+  if(!isFocused){
+    setGameInfo(null);
+    console.log(gameInfo)
+  }
 
   useEffect(() => {
     getResult(item.id);
-
-  }, []);
-
-  useEffect(() => {
     getScreens(item.id);
-
   }, []);
+
 
   if (!gameInfo) {
     return <Text style={{ alignSelf: 'center', color: 'white' }}>LOADING.....</Text>;
