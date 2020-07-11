@@ -1,34 +1,60 @@
-import React, { useState } from 'react';
-import { StyleSheet, Text, View, Button, TouchableOpacity, Image ,StatusBar} from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, Text, View, Button, TouchableOpacity, Image, StatusBar, ScrollView } from 'react-native';
 import GameCardList from '../components/GameCardList';
 import useResults from '../hooks/useResults';
 
-const GameInfo = ({ navigation }) => {
+const HomeScreen = ({ navigation }) => {
 
-  
-  const [getTrending, results, errorMessage] = useResults();
 
-  getTrending(5);
+  const [
+    getTrending,
+    trending,
+    errorMessage,
+    gameInfo,
+    screenshots,
+    getResult,
+    getScreens,
+    getTop,
+    top,
+    dev,
+    getDev,
+    getGames,
+    results
+] = useResults();
 
-  if(!results){
+  useEffect(() => {
+    getTrending(10);
+    getTop(10);
+    getDev(10);
+  }, [])
+
+  if (!trending && !top) {
     return <Text style={styles.loadingTxt}> Loading ... </Text>
   }
   return (
-    <View>
-      <StatusBar barStyle="light-content"  />
+    <ScrollView>
+      <StatusBar barStyle="light-content" />
       <GameCardList
         title="Trending Games"
-        results={results}
+        results={trending}
         navigation={navigation} />
 
+      <GameCardList
+        title="Top Games"
+        results={top}
+        navigation={navigation} />
+      
 
-    </View>
+
+
+    </ScrollView>
   );
 }
-export default GameInfo;
+
 const styles = StyleSheet.create({
-  loadingTxt:{
-    flex:1,
-    color:"white",
+  loadingTxt: {
+    flex: 1,
+    color: "white",
   }
-})
+});
+export default HomeScreen;

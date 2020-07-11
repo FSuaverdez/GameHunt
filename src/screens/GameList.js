@@ -5,17 +5,15 @@ import useResults from '../hooks/useResults'
 const GameList = ({ navigation, route }) => {
   const item = route.params
 
-  const [getTrending, results, errorMessage] = useResults();
 
-  getTrending(10);
   return (
     <View style={styles.container}>
-      <FlatList 
-      data={results}
-      keyExtractor={( item ) => item.slug}
-      renderItem={({ item }) => (
-        <Text style={styles.txt}> {item.name}</Text>
-      )}
+      <FlatList
+        data={item}
+        keyExtractor={(item) => item.slug}
+        renderItem={({ item }) => (
+          <Text style={styles.txt}> {item.name}</Text>
+        )}
       />
 
     </View>

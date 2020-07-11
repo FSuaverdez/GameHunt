@@ -8,13 +8,13 @@ const GameCardList = ({ title, results, navigation }) => {
             <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('GameList', results)}>
                 <View style={styles.container}>
 
-                    <Text style={styles.title}>{title} ></Text>
+                    <Text style={styles.title}>{title} {'>'}</Text>
 
 
                     <FlatList
                         horizontal
                         showsHorizontalScrollIndicator={false}
-                        keyExtractor={(item) => item.slug}
+                        keyExtractor={(item) => item.name}
                         data={results}
                         renderItem={({ item }) => (
                             <GameCard
@@ -30,11 +30,12 @@ const GameCardList = ({ title, results, navigation }) => {
 }
 const styles = StyleSheet.create({
     container: {
-        margin: 20,
+        margin:20,
+        padding:10,
         marginVertical: 20,
         backgroundColor: '#3d3d3d',
-        padding: 20,
         borderRadius: 15,
+        paddingRight:0
     },
     title: {
         color: '#fff',

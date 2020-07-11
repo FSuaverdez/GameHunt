@@ -3,29 +3,33 @@ import { ScrollView, StyleSheet, Text, View, Button, Image, FlatList } from 'rea
 import useResults from '../hooks/useResults';
 import { Video } from 'expo-av';
 import RAWG from '../api/RAWG';
-
+import Header from '../components/Header'
 const GameScreen = ({ navigation, route }) => {
 
-  const [gameInfo, setGameInfo] = useState(null);
-  const [screenshots, setScreens] = useState(null);
 
+  const [
+    getTrending,
+    trending,
+    errorMessage,
+    gameInfo,
+    screenshots,
+    getResult,
+    getScreens,
+    getTop,
+    top,
+    dev,
+    getDev,
+    getGames,
+    results
+] = useResults();
   const item = route.params;
-  navigation.setOptions({ title: item.name });
-  const getResult = async (id) => {
-    const response = await RAWG.get(`/games/${id}`);
-    setGameInfo(response.data);
-  };
-  const getScreens = async (id) => {
-    const response = await RAWG.get(`/games/${id}/screenshots`);
-    setScreens(response.data.results);
-  };
+  navigation.setOptions({ headerTitle: props => <Header title={item.name} /> });
+
+
 
   const isFocused = navigation.isFocused();
 
-  if(!isFocused){
-    setGameInfo(null);
-    console.log(gameInfo)
-  }
+
 
   useEffect(() => {
     getResult(item.id);
@@ -40,50 +44,45 @@ const GameScreen = ({ navigation, route }) => {
 
 
   return (
-    <View>
-      <ScrollView>
-        <Image source={{ uri: item.background_image }} style={styles.image} />
-        <Text style={styles.title}>{item.name}</Text>
-        <Text style={styles.rating}>Ratings: {item.rating} / {item.rating_top}</Text>
-        <Text style={styles.description}> {gameInfo.description_raw}</Text>
-        {!gameInfo.clip ? null : <View style={styles.media_container}>
-          <Text style={styles.clip}>Clip: </Text>
-          <Video
-            style={styles.video}
-            useNativeControls={true}
-            source={{ uri: gameInfo.clip.clip }}
-            rate={1.0}
-            volume={1.0}
-            isMuted={false}
-            resizeMode="cover"
-            shouldPlay={false}
-            isLooping
-          />
-        </View>}
-        {!screenshots ? null : <View style={styles.media_container}>
-          <Text style={styles.clip}>Screenshots: </Text>
-          <FlatList
-            horizontal
-            data={screenshots}
-            keyExtractor={( item ) => item.image}
-            renderItem={({ item }) => {
-              return (
-                <Image style={styles.screenshot} source={{ uri: item.image }} />
-              )
-            }} />
-        </View>}
-      </ScrollView>
-    </View>
+
+    <ScrollView>
+      <Image source={{ uri: item.background_image }} style={styles.image} />
+      <Text style={styles.title}>{item.name}</Text>
+      <Text style={styles.rating}>Ratings: {item.rating} / {item.rating_top}</Text>
+      <Text style={styles.description}> {gameInfo.description_raw}</Text>
+      {!gameInfo.clip ? null : <View style={styles.media_container}>
+        <Text style={styles.clip}>Clip: </Text>
+        <Video
+          style={styles.video}
+          useNativeControls={true}
+          source={{ uri: gameInfo.clip.clip }}
+          rate={1.0}
+          volume={1.0}
+          isMuted={false}
+          resizeMode="cover"
+          shouldPlay={false}
+          isLooping
+        />
+      </View>}
+      {!screenshots ? null : <View style={styles.media_container}>
+        <Text style={styles.clip}>Screenshots: </Text>
+        <FlatList
+          horizontal
+          data={screenshots}
+          keyExtractor={(item) => item.image}
+          renderItem={({ item }) => {
+            return (
+              <Image style={styles.screenshot} source={{ uri: item.image }} />
+            )
+          }} />
+      </View>}
+    </ScrollView>
+
 
 
   );
 }
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   title: {
     fontWeight: 'bold',
     fontSize: 25,
@@ -123,15 +122,15 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     height: 250,
     width: 350,
-    marginVertical:10,
+    marginVertical: 10,
   },
   clip: {
     color: 'white',
     fontSize: 20,
     fontWeight: 'bold',
-    marginBottom:20,
+    marginBottom: 20,
   },
-  screenshot:{
+  screenshot: {
     height: 160,
     width: 280,
     borderRadius: 20,

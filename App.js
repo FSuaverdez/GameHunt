@@ -11,7 +11,7 @@ import HomeScreen from './src/screens/HomeScreen';
 import GameList from './src/screens/GameList';
 import GameScreen from './src/screens/GameScreen';
 import SearchScreen from './src/screens/SearchScreen';
-
+import Header from './src/components/Header';
 
 const MainStack = createStackNavigator();
 const SearchStack = createStackNavigator();
@@ -36,7 +36,10 @@ const App = () => {
     return (
       <MainStack.Navigator>
 
-        <MainStack.Screen Screen name="HomeScreen" component={HomeScreen} options={{ title: 'HomeScreen' }} />
+        <MainStack.Screen Screen name="HomeScreen" component={HomeScreen}
+          options={{
+            headerTitle: props => <Header title="GameHunt" />,
+          }} />
         <MainStack.Screen Screen name="GameList" component={GameList} options={{ title: 'GameList' }} />
         <MainStack.Screen Screen name="GameScreen" component={GameScreen} options={{ title: 'GamesDetails' }} />
 
@@ -48,7 +51,10 @@ const App = () => {
     return (
       <SearchStack.Navigator>
 
-        <SearchStack.Screen Screen name="SearchScreen" component={SearchScreen} options={{ title: 'Search' }} />
+        <SearchStack.Screen
+          Screen name="SearchScreen"
+          component={SearchScreen}
+          options={{ headerTitle: props => <Header title="Search" /> }} />
 
 
       </SearchStack.Navigator>

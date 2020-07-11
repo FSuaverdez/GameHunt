@@ -30,6 +30,7 @@ const styles = StyleSheet.create({
         width: 200,
         marginHorizontal: 5,
         borderRadius: 20,
+        alignSelf:'center'
     }
 });
 export default GameCard;

@@ -1,13 +1,27 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, Button, TouchableOpacity, Image, StatusBar } from 'react-native';
+import { StyleSheet, Text, View, Button, TouchableOpacity, Image, StatusBar, FlatList } from 'react-native';
 import GameCardList from '../components/GameCardList';
 import useResults from '../hooks/useResults';
 import SearchBar from '../components/SearchBar';
-
-const GameInfo = ({ navigation }) => {
+import GameCard from '../components/GameCard';
+const SearchScreen = ({ navigation }) => {
     const [term, setTerm] = useState('');
 
-    const [getTrending, results, errorMessage] = useResults();
+    const [
+        getTrending,
+        trending,
+        errorMessage,
+        gameInfo,
+        screenshots,
+        getResult,
+        getScreens,
+        getTop,
+        top,
+        dev,
+        getDev,
+        getGames,
+        results
+    ] = useResults();
 
 
     return (
@@ -15,12 +29,25 @@ const GameInfo = ({ navigation }) => {
             <SearchBar
                 term={term}
                 onTermChange={setTerm}
-                onTermSubmit={() => console.log(term)}
+                onTermSubmit={() => getGames(20,term)}
             />
+
+            {!results ? null
+                : <FlatList
+                    data={results}
+                    keyExtractor={(item) => item.slug}
+                    renderItem={({ item }) => (
+                        <GameCard
+                                item={item}
+                                navigation={navigation} />
+                    )}
+                />
+
+            }
         </View>
     );
 }
-export default GameInfo;
+export default SearchScreen;
 const styles = StyleSheet.create({
     txt: {
         color: "white",
