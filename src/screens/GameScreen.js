@@ -3,9 +3,12 @@ import { ScrollView, StyleSheet, Text, View, Button, Image, FlatList } from 'rea
 import useResults from '../hooks/useResults';
 import { Video } from 'expo-av';
 import RAWG from '../api/RAWG';
-import Header from '../components/Header'
+import Header from '../components/Header';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+
 const GameScreen = ({ navigation, route }) => {
 
+  
 
   const [
     getTrending,
@@ -21,7 +24,7 @@ const GameScreen = ({ navigation, route }) => {
     getDev,
     getGames,
     results
-] = useResults();
+  ] = useResults();
   const item = route.params;
   navigation.setOptions({ headerTitle: props => <Header title={item.name} /> });
 
@@ -106,15 +109,15 @@ const styles = StyleSheet.create({
   },
   image: {
     alignSelf: 'center',
-    height: 200,
-    width: 350,
+    height: hp('30%'),
+    width: wp('90%'),
     borderRadius: 20,
     margin: 20
   },
   video: {
     alignSelf: 'center',
-    height: 200,
-    width: 350,
+    height: hp('25%'),
+    width: wp('85%'),
     borderRadius: 20,
   },
   media_container: {
@@ -131,8 +134,8 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   screenshot: {
-    height: 160,
-    width: 280,
+    height: hp('20%'),
+    width: wp('65%'),
     borderRadius: 20,
     margin: 10
   }

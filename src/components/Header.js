@@ -1,25 +1,14 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Linking, TouchableOpacity, WebView } from 'react-native';
-
+import { View, Text, StyleSheet, Linking, TouchableOpacity } from 'react-native';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 const Header = ({ title }) => {
-
-    const openRAWG = () => {
-        return (
-            <WebView
-                source={{
-                    uri: 'https://github.com/facebook/react-native'
-                }}
-                style={{ marginTop: 20 }}
-            />
-        )
-    }
 
     return (
         <View style={styles.container}>
             <Text style={styles.title}>{title} </Text>
             <TouchableOpacity
                 style={styles.btn}
-                onPress={() => openRAWG()}>
+                onPress={() => Linking.openURL('https://rawg.io/')}>
                 <Text style={styles.powered}>Powered by RAWG.IO</Text>
             </TouchableOpacity>
         </View>
@@ -29,13 +18,13 @@ const Header = ({ title }) => {
 
 const styles = StyleSheet.create({
     container: {
-        justifyContent: 'space-between'
+        justifyContent:'space-between'
     },
     title: {
         color: '#fff',
         fontWeight: 'bold',
-        fontSize: 18,
-
+        fontSize: hp('2%'),
+        
     },
     powered: {
         color: '#a9a9a9',

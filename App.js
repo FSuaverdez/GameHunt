@@ -55,7 +55,7 @@ const App = () => {
           Screen name="SearchScreen"
           component={SearchScreen}
           options={{ headerTitle: props => <Header title="Search" /> }} />
-
+        <SearchStack.Screen Screen name="GameScreen" component={GameScreen} options={{ title: 'GamesDetails' }} />
 
       </SearchStack.Navigator>
     );
