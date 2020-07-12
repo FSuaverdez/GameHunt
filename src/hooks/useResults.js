@@ -66,13 +66,21 @@ export default () => {
 
 
     const getResult = async (id) => {
+        try {
         const response = await RAWG.get(`/games/${id}`);
         setGameInfo(response.data);
+        } catch (err) {
+            setErrorMessage("Something Went Wrong.");
+        }
     };
 
     const getScreens = async (id) => {
+        try {
         const response = await RAWG.get(`/games/${id}/screenshots`);
         setScreens(response.data.results);
+        } catch (err) {
+            setErrorMessage("Something Went Wrong.");
+        }
     };
 
 
