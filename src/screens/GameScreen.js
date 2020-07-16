@@ -3,50 +3,19 @@ import { ScrollView, StyleSheet, Text, View, Button, Image, FlatList, BackHandle
 import useResults from '../hooks/useResults';
 import { Video } from 'expo-av';
 import RAWG from '../api/RAWG';
-import { useIsFocused, useFocusEffect } from '@react-navigation/native';
-import { HeaderBackButton } from '@react-navigation/stack';
 
 
 
 const GameScreen = ({ navigation, route }) => {
 
-
-
   const [gameInfo, setGameInfo] = useState(null);
   const [screenshots, setScreens] = useState(null);
-  const [trending, getTrending, results, setResults, top, getTop, errorMessage] = useResults();
-
-
-  const isFocused = useIsFocused();
-
-
-  useFocusEffect(
-    React.useCallback(() => {
-      const onBackPress = () => {
-        setResults(null);
-        console.log(results);
-      };
-
-      BackHandler.addEventListener('hardwareBackPress', onBackPress);
-
-      return () =>
-        BackHandler.removeEventListener('hardwareBackPress', onBackPress);
-    }, [])
-  );
+  const [trending, getTrending, results, setResults, top, getTop, getGames, errorMessage] = useResults();
 
   const item = route.params;
 
   navigation.setOptions({
     title: item.name,
-    headerLeft: (props) => (
-      <HeaderBackButton
-        onPress={() => {
-          setResults(null);
-          console.log(results);
-          navigation.navigate('HomeScreen');
-        }}
-      />
-    )
   });
   const getResult = async (id) => {
     const response = await RAWG.get(`/games/${id}`);

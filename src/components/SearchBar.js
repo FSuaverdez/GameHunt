@@ -2,8 +2,11 @@ import React from 'react';
 import { View, Text, StyleSheet, TextInput } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
+import useResults from '../hooks/useResults';
 
 const SearchBar = ({ term, onTermChange, onTermSubmit }) => {
+    const [trending, getTrending, results, setResults, top, getTop, getGames, errorMessage] = useResults();
+
     return (
         <View style={styles.backgroundStyle}>
             <Feather
@@ -17,10 +20,15 @@ const SearchBar = ({ term, onTermChange, onTermSubmit }) => {
                 onChangeText={onTermChange}
                 autoCapitalize='none'
                 autoCorrect={false}
-                onSubmitEditing={onTermSubmit}
+                onEndEditing={onTermSubmit}
+                
             />
 
-            {!term ? null : <Entypo style={styles.iconStyle} name="cross" color="black" onPress={() => onTermChange('')} />}
+            {!term ? null :
+                <Entypo style={styles.iconStyle} name="cross" color="black" 
+                onPress={() => {
+                    onTermChange('');
+                }} />}
         </View>
     )
 }

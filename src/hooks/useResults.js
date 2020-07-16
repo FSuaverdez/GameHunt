@@ -36,13 +36,27 @@ export default () => {
         }
     }
 
+    const getGames = async (size, term) => {
+        try {
+            const response = await RAWG.get('/games', {
+                params: {
+                    search: term,
+                    page_size: size
+                }
+            });
+            setResults(response.data.results);
+        } catch (err) {
+            setErrorMessage("Something Went Wrong.");
+        }
+    }
+
 
     useEffect(() => {
-        getTrending(5);
-        getTop(5);
+        getTrending(10);
+        getTop(10);
     }, []);
 
 
 
-    return [trending, getTrending, results, setResults, top, getTop, errorMessage];
+    return [trending, getTrending, results, setResults, top, getTop, getGames, errorMessage];
 };

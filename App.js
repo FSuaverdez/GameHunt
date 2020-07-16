@@ -8,7 +8,6 @@ import { useColorScheme } from 'react-native-appearance';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import HomeScreen from './src/screens/HomeScreen';
-import GameList from './src/screens/GameList';
 import GameScreen from './src/screens/GameScreen';
 import Header from './src/components/Header';
 
@@ -16,6 +15,7 @@ const MainStack = createStackNavigator();
 const App = () => {
 
   const ColorScheme = useColorScheme();
+
 
   const MyTheme = {
     dark: false,
@@ -40,7 +40,6 @@ const App = () => {
         <MainStack.Screen Screen name="HomeScreen" component={HomeScreen} options={{
           headerTitle: props => <Header title="GameHunt" />,
         }} />
-        <MainStack.Screen Screen name="GameList" component={GameList} options={{ title: 'GameList' }} />
         <MainStack.Screen Screen name="GameScreen" component={GameScreen} options={{
           title: 'GamesDetails',
         }} />
