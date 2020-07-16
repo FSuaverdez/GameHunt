@@ -10,12 +10,9 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import HomeScreen from './src/screens/HomeScreen';
 import GameList from './src/screens/GameList';
 import GameScreen from './src/screens/GameScreen';
-import SearchScreen from './src/screens/SearchScreen';
 import Header from './src/components/Header';
 
 const MainStack = createStackNavigator();
-const SearchStack = createStackNavigator();
-const Tab = createMaterialBottomTabNavigator();
 const App = () => {
 
   const ColorScheme = useColorScheme();
@@ -32,61 +29,23 @@ const App = () => {
   };
 
 
-  function MainStackScreen() {
-    return (
-      <MainStack.Navigator>
 
-        <MainStack.Screen Screen name="HomeScreen" component={HomeScreen}
-          options={{
-            headerTitle: props => <Header title="GameHunt" />,
-          }} />
-        <MainStack.Screen Screen name="GameList" component={GameList} options={{ title: 'GameList' }} />
-        <MainStack.Screen Screen name="GameScreen" component={GameScreen} options={{ title: 'GamesDetails' }} />
-
-      </MainStack.Navigator>
-    );
-  }
-
-  function SearchStackScreen() {
-    return (
-      <SearchStack.Navigator>
-
-        <SearchStack.Screen
-          Screen name="SearchScreen"
-          component={SearchScreen}
-          options={{ headerTitle: props => <Header title="Search" /> }} />
-        <SearchStack.Screen Screen name="GameScreen" component={GameScreen} options={{ title: 'GamesDetails' }} />
-
-      </SearchStack.Navigator>
-    );
-  }
 
 
 
   return (
     <NavigationContainer theme={ColorScheme == 'dark' ? DarkTheme : MyTheme}>
-      <Tab.Navigator activeColor='white' inactiveColor='gray' barStyle={{ backgroundColor: '#000' }}>
-        <Tab.Screen
-          name="HomeScreen"
-          component={MainStackScreen}
-          options={{
-            tabBarLabel: 'Home',
-            tabBarColor: 'white',
-            tabBarIcon: ({ color }) => (
-              <Icon name='ios-home' color={color} size={26} />
-            )
-          }} />
-        <Tab.Screen
-          name="SearchScreen"
-          component={SearchStackScreen}
-          options={{
-            tabBarLabel: 'Search',
-            tabBarColor: '#000',
-            tabBarIcon: ({ color }) => (
-              <Icon name='ios-search' color={color} size={26} />
-            )
-          }} />
-      </Tab.Navigator>
+      <MainStack.Navigator>
+
+        <MainStack.Screen Screen name="HomeScreen" component={HomeScreen} options={{
+          headerTitle: props => <Header title="GameHunt" />,
+        }} />
+        <MainStack.Screen Screen name="GameList" component={GameList} options={{ title: 'GameList' }} />
+        <MainStack.Screen Screen name="GameScreen" component={GameScreen} options={{
+          title: 'GamesDetails',
+        }} />
+
+      </MainStack.Navigator>
     </NavigationContainer>
   );
 }

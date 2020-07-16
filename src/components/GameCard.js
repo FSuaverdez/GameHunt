@@ -1,11 +1,10 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 const GameCard = ({ item, navigation }) => {
     return (
-        <View>
-            <TouchableOpacity activeOpacity={0.5} onPress={() => {
+        <View >
+            <TouchableOpacity style={styles.container} activeOpacity={0.5} onPress={() => {
                 navigation.navigate('GameScreen', item);
             }}>
                 <Image source={{ uri: item.background_image }} style={styles.image} />
@@ -27,11 +26,20 @@ const styles = StyleSheet.create({
         marginHorizontal: 5
     },
     image: {
-        height: 100,
-        width: 200,
+        height: 130,
+        width: 250,
         marginHorizontal: 5,
         borderRadius: 20,
-        alignSelf:'center'
+    },
+    container: {
+        alignSelf:'center',
+        alignItems: 'center',
+        backgroundColor: '#3d3d3d',
+        marginHorizontal:10,
+        width: 250,
+        paddingBottom:20,
+        borderRadius:15,
+        marginBottom:20
     }
 });
 export default GameCard;

@@ -1,60 +1,56 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, Button, TouchableOpacity, Image, StatusBar, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, Button, TouchableOpacity, Image, StatusBar, ScrollView, } from 'react-native';
 import GameCardList from '../components/GameCardList';
 import useResults from '../hooks/useResults';
-
+import SearchBar from '../components/SearchBar';
+import { useFocusEffect } from '@react-navigation/native';
 const HomeScreen = ({ navigation }) => {
+  const [term, setTerm] = useState('');
+
+  const [trending, getTrending, results, setResults, top, getTop, errorMessage] = useResults();
 
 
-  const [
-    getTrending,
-    trending,
-    errorMessage,
-    gameInfo,
-    screenshots,
-    getResult,
-    getScreens,
-    getTop,
-    top,
-    dev,
-    getDev,
-    getGames,
-    results
-] = useResults();
 
-  useEffect(() => {
-    getTrending(10);
-    getTop(10);
-    getDev(10);
-  }, [])
-
-  if (!trending && !top) {
+  if (!top && !trending) {
     return <Text style={styles.loadingTxt}> Loading ... </Text>
   }
+
   return (
-    <ScrollView>
-      <StatusBar barStyle="light-content" />
-      <GameCardList
-        title="Trending Games"
-        results={trending}
-        navigation={navigation} />
+    <View style={{ flex: 1 }}>
+      <ScrollView>
+        <SearchBar
+          term={term}
+          onTermChange={setTerm}
+          onTermSubmit={() => getGames(20, term)}
+        />
+        <StatusBar barStyle="light-content" />
 
-      <GameCardList
-        title="Top Games"
-        results={top}
-        navigation={navigation} />
-      
+        <GameCardList
+          title='Trending Games'
+          data={trending}
+          navigation={navigation} />
+        <GameCardList
+          title='Top Games'
+          data={top}
+          navigation={navigation} />
+      </ScrollView>
 
 
-
-    </ScrollView>
+    </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   loadingTxt: {
     flex: 1,
     color: "white",
+  },
+  powered: {
+    color: '#a9a9a9',
+    fontSize: 12,
+    textDecorationLine: "underline",
   }
-});
+})
+
+
 export default HomeScreen;

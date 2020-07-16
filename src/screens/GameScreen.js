@@ -1,37 +1,61 @@
 import React, { useEffect, useState } from 'react';
-import { ScrollView, StyleSheet, Text, View, Button, Image, FlatList } from 'react-native';
+import { ScrollView, StyleSheet, Text, View, Button, Image, FlatList, BackHandler } from 'react-native';
 import useResults from '../hooks/useResults';
 import { Video } from 'expo-av';
 import RAWG from '../api/RAWG';
-import Header from '../components/Header';
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { useIsFocused, useFocusEffect } from '@react-navigation/native';
+import { HeaderBackButton } from '@react-navigation/stack';
+
+
 
 const GameScreen = ({ navigation, route }) => {
 
-  
 
-  const [
-    getTrending,
-    trending,
-    errorMessage,
-    gameInfo,
-    screenshots,
-    getResult,
-    getScreens,
-    getTop,
-    top,
-    dev,
-    getDev,
-    getGames,
-    results
-  ] = useResults();
+
+  const [gameInfo, setGameInfo] = useState(null);
+  const [screenshots, setScreens] = useState(null);
+  const [trending, getTrending, results, setResults, top, getTop, errorMessage] = useResults();
+
+
+  const isFocused = useIsFocused();
+
+
+  useFocusEffect(
+    React.useCallback(() => {
+      const onBackPress = () => {
+        setResults(null);
+        console.log(results);
+      };
+
+      BackHandler.addEventListener('hardwareBackPress', onBackPress);
+
+      return () =>
+        BackHandler.removeEventListener('hardwareBackPress', onBackPress);
+    }, [])
+  );
+
   const item = route.params;
-  navigation.setOptions({ headerTitle: props => <Header title={item.name} /> });
 
-
-
-  const isFocused = navigation.isFocused();
-
+  navigation.setOptions({
+    title: item.name,
+    headerLeft: (props) => (
+      <HeaderBackButton
+        onPress={() => {
+          setResults(null);
+          console.log(results);
+          navigation.navigate('HomeScreen');
+        }}
+      />
+    )
+  });
+  const getResult = async (id) => {
+    const response = await RAWG.get(`/games/${id}`);
+    setGameInfo(response.data);
+  };
+  const getScreens = async (id) => {
+    const response = await RAWG.get(`/games/${id}/screenshots`);
+    setScreens(response.data.results);
+  };
 
 
   useEffect(() => {
@@ -40,7 +64,10 @@ const GameScreen = ({ navigation, route }) => {
   }, []);
 
 
-  if (!gameInfo) {
+  if (errorMessage !== null) {
+    return <Text style={{ alignSelf: 'center', color: 'white' }}>SOMETHING WENT WRONG.....</Text>;
+  }
+  else if (!gameInfo) {
     return <Text style={{ alignSelf: 'center', color: 'white' }}>LOADING.....</Text>;
   }
 
@@ -57,7 +84,6 @@ const GameScreen = ({ navigation, route }) => {
         <Text style={styles.clip}>Clip: </Text>
         <Video
           style={styles.video}
-          useNativeControls={true}
           source={{ uri: gameInfo.clip.clip }}
           rate={1.0}
           volume={1.0}
@@ -86,6 +112,11 @@ const GameScreen = ({ navigation, route }) => {
   );
 }
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   title: {
     fontWeight: 'bold',
     fontSize: 25,
@@ -109,15 +140,15 @@ const styles = StyleSheet.create({
   },
   image: {
     alignSelf: 'center',
-    height: hp('30%'),
-    width: wp('90%'),
+    height: 200,
+    width: 350,
     borderRadius: 20,
     margin: 20
   },
   video: {
     alignSelf: 'center',
-    height: hp('25%'),
-    width: wp('85%'),
+    height: 200,
+    width: 350,
     borderRadius: 20,
   },
   media_container: {
@@ -134,8 +165,8 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   screenshot: {
-    height: hp('20%'),
-    width: wp('65%'),
+    height: 160,
+    width: 280,
     borderRadius: 20,
     margin: 10
   }

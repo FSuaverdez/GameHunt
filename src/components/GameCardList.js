@@ -1,46 +1,34 @@
 import React from 'react';
-import { StyleSheet, Text, View, FlatList, TouchableOpacity, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, FlatList } from 'react-native';
 import GameCard from './GameCard';
+import useResults from '../hooks/useResults';
 
-const GameCardList = ({ title, results, navigation }) => {
+const GameCardList = ({ title, data, navigation }) => {
+
+    const [getTrending, results, errorMessage, refresh, setRefresh] = useResults();
     return (
-        <ScrollView>
-            <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('GameList', results)}>
-                <View style={styles.container}>
-
-                    <Text style={styles.title}>{title} {'>'}</Text>
-
-
-                    <FlatList
-                        horizontal
-                        showsHorizontalScrollIndicator={false}
-                        keyExtractor={(item) => item.name}
-                        data={results}
-                        renderItem={({ item }) => (
-                            <GameCard
-                                item={item}
-                                navigation={navigation} />
-                        )}
-                    />
-
-                </View>
-            </TouchableOpacity >
-        </ScrollView >
+        <View style={{ flex: 1 }}>
+            <Text style={styles.title}>{title}</Text>
+            <FlatList
+                horizontal
+                keyExtractor={(item) => item.slug}
+                data={data}
+                renderItem={({ item }) => (
+                    <GameCard
+                        item={item}
+                        navigation={navigation} />
+                )}
+            />
+        </View >
     );
-}
+};
+
 const styles = StyleSheet.create({
-    container: {
-        margin:20,
-        padding:10,
-        marginVertical: 20,
-        backgroundColor: '#3d3d3d',
-        borderRadius: 15,
-        paddingRight:0
-    },
     title: {
         color: '#fff',
-        fontSize: 20,
+        fontSize: 30,
         fontWeight: 'bold',
+        margin: 10,
         marginBottom: 15
     },
     txt2: {
