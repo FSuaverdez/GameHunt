@@ -7,7 +7,7 @@ import SearchBar from '../components/SearchBar';
 const HomeScreen = ({ navigation }) => {
   const [term, setTerm] = useState('');
 
-  const [trending, getTrending, results, setResults, top, getTop, getGames, errorMessage] = useResults();
+  const [trending, getTrending, results, setResults, top, getTop, getGames, gameInfo, getResult, screenshots, getScreens, errorMessage] = useResults();
 
 
 
@@ -22,7 +22,7 @@ const HomeScreen = ({ navigation }) => {
 
       <SearchBar
         term={term}
-        onTermChange={newTerm =>{
+        onTermChange={newTerm => {
           setTerm(newTerm);
           getGames(10, newTerm);
         }}
@@ -48,17 +48,32 @@ const HomeScreen = ({ navigation }) => {
 
           data={results}
           keyExtractor={(item) => item.slug}
-          renderItem={({ item }) => (
-            <View style={styles.container}>
-              <TouchableOpacity style={styles.container} activeOpacity={0.5} onPress={() => {
-                navigation.navigate('GameScreen', item);
-              }}>
-                <Image source={{ uri: item.background_image }} style={styles.image} />
-                <Text style={styles.txt2}>{item.name}</Text>
+          renderItem={({ item }) => {
+            if (item.parent_platforms) {
+              var platforms = "";
+              for (var i = 0; i < item.parent_platforms.length; i++) {
+                platforms += item.parent_platforms[i].platform.id == 3 ? "Mac" : item.parent_platforms[i].platform.name;
+                if (i + 1 != item.parent_platforms.length) {
+                  platforms += ", ";
+                }
 
-              </TouchableOpacity>
-            </View>
-          )}
+              }
+            }
+            return (
+              <View style={styles.container}>
+                <TouchableOpacity activeOpacity={0.5} onPress={() => {
+                  navigation.navigate('GameScreen', item);
+                }}>
+                  <Image  source={{ uri: item.background_image }} style={styles.image} />
+                  <Text style={styles.gameTitle}>{item.name}</Text>
+                  <Text style={styles.txt}>Ratings {item.rating}/5</Text>
+
+                  {!platforms ? null : <Text style={styles.txt}>{platforms}</Text>}
+
+                </TouchableOpacity>
+              </View>
+            );
+          }}
         />
       }
 
@@ -74,6 +89,8 @@ const styles = StyleSheet.create({
   loadingTxt: {
     flex: 1,
     color: "white",
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   powered: {
     color: '#a9a9a9',
@@ -81,12 +98,19 @@ const styles = StyleSheet.create({
     textDecorationLine: "underline",
   },
   txt: {
-    color: '#fff',
-    fontSize: 30,
-  },
-  txt2: {
     color: 'white',
     fontSize: 15,
+    alignSelf: 'center',
+    justifyContent: 'center',
+    marginHorizontal: 5,
+    paddingHorizontal: 15,
+    textAlign: 'center'
+
+  },
+  gameTitle: {
+    fontWeight: 'bold',
+    color: 'white',
+    fontSize: 20,
     alignSelf: 'center',
     marginHorizontal: 5
   },
@@ -100,11 +124,10 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     alignItems: 'center',
     backgroundColor: '#3d3d3d',
-    marginHorizontal: 10,
+    marginHorizontal: 20,
     width: 350,
-    paddingBottom: 20,
     borderRadius: 20,
-    marginBottom: 20
+    marginVertical: 10,
   }
 })
 

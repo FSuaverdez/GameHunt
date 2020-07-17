@@ -6,6 +6,8 @@ export default () => {
     const [trending, setTrending] = useState(null);
     const [errorMessage, setErrorMessage] = useState(null);
     const [top, setTop] = useState(null);
+    const [gameInfo, setGameInfo] = useState(null);
+    const [screenshots, setScreens] = useState(null);
 
     const getTrending = async (size) => {
         try {
@@ -50,6 +52,15 @@ export default () => {
         }
     }
 
+    const getResult = async (id) => {
+        const response = await RAWG.get(`/games/${id}`);
+        setGameInfo(response.data);
+    };
+    const getScreens = async (id) => {
+        const response = await RAWG.get(`/games/${id}/screenshots`);
+        setScreens(response.data.results);
+    };
+
 
     useEffect(() => {
         getTrending(10);
@@ -58,5 +69,5 @@ export default () => {
 
 
 
-    return [trending, getTrending, results, setResults, top, getTop, getGames, errorMessage];
+    return [trending, getTrending, results, setResults, top, getTop, getGames, gameInfo, getResult, screenshots, getScreens, errorMessage];
 };

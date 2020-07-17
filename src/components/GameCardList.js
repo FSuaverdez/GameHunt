@@ -6,6 +6,10 @@ import useResults from '../hooks/useResults';
 const GameCardList = ({ title, data, navigation }) => {
 
     const [getTrending, results, errorMessage, refresh, setRefresh] = useResults();
+
+    if(!data){
+        return null;
+    }
     return (
         <View style={{ flex: 1 }}>
             <Text style={styles.title}>{title}</Text>
