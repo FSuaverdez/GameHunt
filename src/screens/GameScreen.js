@@ -31,6 +31,17 @@ const GameScreen = ({ navigation, route }) => {
 
 
   if (gameInfo) {
+    var genres = "";
+    if (gameInfo.genres && genres === '') {
+
+      for (let i = 0; i < gameInfo.genres.length; i++) {
+        genres += gameInfo.genres[i].name;
+        if (i + 1 != gameInfo.genres.length) {
+          genres += ", ";
+        }
+
+      }
+    }
     var developers = "";
     if (gameInfo.developers && developers === '') {
 
@@ -53,10 +64,23 @@ const GameScreen = ({ navigation, route }) => {
 
 
   if (errorMessage !== null) {
-    return <Text style={{ alignSelf: 'center', color: 'white' }}>SOMETHING WENT WRONG.....</Text>;
+    return <View style={{
+      flex: 1,
+      alignItems: 'center',
+      justifyContent: 'center',
+    }}>
+      <Text style={{ color: 'white' }}>SOMETHING WENT WRONG.....</Text>
+    </View>
   }
   else if (!gameInfo) {
-    return <Text style={{ alignSelf: 'center', color: 'white' }}>LOADING.....</Text>;
+    return <View style={{
+      flex: 1,
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: '#000'
+    }}>
+      <Image source={require('../../assets/loading.png')} style={{ height: 100, width: 160 }} />
+    </View>
   }
 
 
@@ -68,9 +92,16 @@ const GameScreen = ({ navigation, route }) => {
       <Text style={styles.title}>{item.name}</Text>
       <Text style={styles.rating}>Ratings: {item.rating} / {item.rating_top}</Text>
       <Text style={styles.rating}>{platforms}</Text>
-      <Text style={styles.description}> {gameInfo.description_raw}</Text>
-      <Text style={styles.developerText}><Text style ={{fontWeight:'bold',textDecorationLine:'underline'}}>DEVELOPERS:</Text> {"\n"}{developers}</Text>
-      {item.released ? <Text style={styles.developerText}><Text style ={{fontWeight:'bold',textDecorationLine:'underline'}}>RELEASE DATE:</Text> {"\n"}{item.released}</Text> : null}
+      <Text style={styles.description}>
+        {gameInfo.description_raw}
+        {'\n\n\n\n'}
+        <Text style={styles.developerText}><Text style={{ fontWeight: 'bold', textDecorationLine: 'underline' }}>DEVELOPERS:</Text> {"\n"}{developers}</Text>
+        {'\n\n'}
+        <Text style={styles.developerText}><Text style={{ fontWeight: 'bold', textDecorationLine: 'underline' }}>GENRES:</Text> {"\n"}{genres}</Text>
+        {'\n\n'}
+        {item.released ? <Text style={styles.developerText}><Text style={{ fontWeight: 'bold', textDecorationLine: 'underline' }}>RELEASE DATE:</Text> {"\n"}{item.released}</Text> : null}
+      </Text>
+
       {!gameInfo.stores ? null : <View style={{ margin: 20 }}>
         <Text style={styles.clip}>Stores: </Text>
         <FlatList
@@ -98,7 +129,6 @@ const GameScreen = ({ navigation, route }) => {
           isMuted={false}
           resizeMode="cover"
           shouldPlay={false}
-          isLooping
         />
       </View>}
       {!screenshots ? null : <View style={styles.media_container}>
@@ -109,7 +139,7 @@ const GameScreen = ({ navigation, route }) => {
           keyExtractor={(item) => item.image}
           renderItem={({ item }) => {
             return (
-              <Image style={styles.screenshot} source={{ uri: item.image }} />
+              <Image style={styles.screenshot} resizeMode='cover' resizeMethod='resize' source={{ uri: item.image }} />
             )
           }} />
       </View>}
@@ -136,8 +166,8 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     fontSize: 16,
     color: 'white',
-    marginHorizontal:40,
-    textAlign:'center'
+    marginHorizontal: 40,
+    textAlign: 'center'
   },
   description: {
     color: 'white',
@@ -190,7 +220,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: '#fff',
     marginBottom: 10,
-    marginHorizontal:20,
+    marginHorizontal: 20,
   }
 });
 export default GameScreen;

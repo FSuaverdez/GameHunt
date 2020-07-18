@@ -19,7 +19,7 @@ const GameCard = ({ item, navigation }) => {
             <TouchableOpacity style={styles.container} activeOpacity={0.5} onPress={() => {
                 navigation.navigate('GameScreen', item);
             }}>
-                <Image defaultSource={require('../../assets/loading.png')} source={{ uri: item.background_image }} style={styles.image} />
+                <Image source={{ uri: item.background_image }} resizeMode='cover' resizeMethod='resize' style={styles.image} />
                 <Text style={styles.gameTitle}>{item.name}</Text>
                 <Text style={styles.txt}>Ratings {item.rating}/5</Text>
 

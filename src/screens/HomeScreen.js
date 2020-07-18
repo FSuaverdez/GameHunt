@@ -12,7 +12,14 @@ const HomeScreen = ({ navigation }) => {
 
 
   if (!top && !trending) {
-    return <Text style={styles.loadingTxt}> Loading ... </Text>
+    return <View style={{
+      flex: 1,
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: '#000'
+    }}>
+      <Image source={require('../../assets/loading.png')} style={{ height: 100, width: 160 }} />
+    </View>
   }
 
 
@@ -64,7 +71,7 @@ const HomeScreen = ({ navigation }) => {
                 <TouchableOpacity activeOpacity={0.5} onPress={() => {
                   navigation.navigate('GameScreen', item);
                 }}>
-                  <Image  source={{ uri: item.background_image }} style={styles.image} />
+                  <Image source={{ uri: item.background_image }} resizeMode='cover' resizeMethod='resize' style={styles.image} />
                   <Text style={styles.gameTitle}>{item.name}</Text>
                   <Text style={styles.txt}>Ratings {item.rating}/5</Text>
 
@@ -87,10 +94,12 @@ const HomeScreen = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   loadingTxt: {
-    flex: 1,
     color: "white",
+    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    color: 'white'
+
   },
   powered: {
     color: '#a9a9a9',
