@@ -1,17 +1,62 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, Button, TouchableOpacity, Image, StatusBar, ScrollView, FlatList } from 'react-native';
+import { StyleSheet, Text, View, Button, TouchableOpacity, Image, StatusBar, ScrollView, FlatList, BackHandler,Alert } from 'react-native';
 import GameCardList from '../components/GameCardList';
 import useResults from '../hooks/useResults';
 import SearchBar from '../components/SearchBar';
+import { useFocusEffect } from '@react-navigation/native';
+import * as Network from 'expo-network';
 
 const HomeScreen = ({ navigation }) => {
   const [term, setTerm] = useState('');
+  const [isMounted, setMount] = useState(true);
 
-  const [trending, getTrending, results, setResults, top, getTop, getGames, gameInfo, getResult, screenshots, getScreens, errorMessage] = useResults();
+  const [trending, getTrending, results, setResults, top, getTop, getGames, gameInfo, getResult, screenshots, getScreens, errorMessage, getTopYear, topYear] = useResults();
+
+  const checkConnection = async () => {
+    const response = await Network.getNetworkStateAsync();
+    
+    if (response.isInternetReachable == false) {
+      Alert.alert(
+        "Connection Error",
+        "Connect to the internet to continue browsing.",
+        [
+          { text: "OK", onPress: () => console.log("OK Pressed") }
+        ],
+        { cancelable: false }
+      );
+    }
+  }
+
+  useEffect(() => {
+    getTrending(10, isMounted);
+    getTop(10, isMounted);
+    getTopYear(10, new Date().getFullYear(), isMounted);
+      }, []);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      setMount(true);
+      return () => {
+        setMount(false);
+      };
+    }, [])
+  );
 
 
 
-  if (!top && !trending) {
+
+  if (errorMessage !== null) {
+    checkConnection();
+    return <View style={{
+      flex: 1,
+      alignItems: 'center',
+      justifyContent: 'center',
+    }}>
+      <Text style={{ color: 'white' }}>SOMETHING WENT WRONG.....</Text>
+    </View>
+  }
+  else if (!top && !trending) {
+    checkConnection();
     return <View style={{
       flex: 1,
       alignItems: 'center',
@@ -31,10 +76,10 @@ const HomeScreen = ({ navigation }) => {
         term={term}
         onTermChange={newTerm => {
           setTerm(newTerm);
-          getGames(10, newTerm);
+          getGames(10, newTerm, isMounted);
         }}
         onTermSubmit={() => {
-          getGames(10, term);
+          getGames(10, term, isMounted);
         }}
       />
       <StatusBar barStyle="light-content" />
@@ -48,6 +93,10 @@ const HomeScreen = ({ navigation }) => {
           <GameCardList
             title='Top Games'
             data={top}
+            navigation={navigation} />
+          <GameCardList
+            title='Best of the Year'
+            data={topYear}
             navigation={navigation} />
         </ScrollView>
         :

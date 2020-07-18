@@ -1,15 +1,39 @@
 import React, { useEffect, useState } from 'react';
-import { ScrollView, StyleSheet, Text, View, Button, Image, FlatList, BackHandler, Linking } from 'react-native';
+import { ScrollView, StyleSheet, Text, View, Button, Image, FlatList, BackHandler, Linking, Alert } from 'react-native';
 import useResults from '../hooks/useResults';
 import { Video } from 'expo-av';
 import RAWG from '../api/RAWG';
-
-
+import * as Network from 'expo-network';
+import { useFocusEffect } from '@react-navigation/native';
 
 const GameScreen = ({ navigation, route }) => {
 
 
-  const [trending, getTrending, results, setResults, top, getTop, getGames, gameInfo, getResult, screenshots, getScreens, errorMessage] = useResults();
+  const checkConnection = async () => {
+    const response = await Network.getNetworkStateAsync();
+    
+    if (response.isInternetReachable == false) {
+      Alert.alert(
+        "Connection Error",
+        "Connect to the internet to continue browsing.",
+        [
+          { text: "OK", onPress: () => console.log("OK Pressed") }
+        ],
+        { cancelable: false }
+      );
+    }
+  }
+  const [isMounted, setMount] = useState(true);
+  useFocusEffect(
+    React.useCallback(() => {
+      setMount(true);
+      return () => {
+        setMount(false);
+      };
+    }, [])
+  );
+
+  const [trending, getTrending, results, setResults, top, getTop, getGames, gameInfo, getResult, screenshots, getScreens, errorMessage, getTopYear,topYear] = useResults();
 
   const item = route.params;
 
@@ -57,13 +81,13 @@ const GameScreen = ({ navigation, route }) => {
 
 
   useEffect(() => {
-    getResult(item.id);
-    getScreens(item.id);
+    getResult(item.id,isMounted);
+    getScreens(item.id,isMounted);
+    checkConnection();
   }, []);
 
-
-
   if (errorMessage !== null) {
+    checkConnection();
     return <View style={{
       flex: 1,
       alignItems: 'center',
@@ -73,6 +97,7 @@ const GameScreen = ({ navigation, route }) => {
     </View>
   }
   else if (!gameInfo) {
+    checkConnection();
     return <View style={{
       flex: 1,
       alignItems: 'center',
@@ -90,7 +115,7 @@ const GameScreen = ({ navigation, route }) => {
     <ScrollView>
       <Image source={{ uri: item.background_image }} style={styles.image} />
       <Text style={styles.title}>{item.name}</Text>
-      <Text style={styles.rating}>Ratings: {item.rating} / {item.rating_top}</Text>
+      <Text style={styles.rating}>Ratings: {item.rating} / 5</Text>
       <Text style={styles.rating}>{platforms}</Text>
       <Text style={styles.description}>
         {gameInfo.description_raw}

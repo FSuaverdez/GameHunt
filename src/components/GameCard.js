@@ -21,7 +21,7 @@ const GameCard = ({ item, navigation }) => {
             }}>
                 <Image source={{ uri: item.background_image }} resizeMode='cover' resizeMethod='resize' style={styles.image} />
                 <Text style={styles.gameTitle}>{item.name}</Text>
-                <Text style={styles.txt}>Ratings {item.rating}/5</Text>
+                <Text style={styles.txt}>Ratings {item.rating} / 5</Text>
 
                 <Text style={styles.txt}>{platforms}</Text>
 
