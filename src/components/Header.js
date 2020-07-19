@@ -29,6 +29,7 @@ const styles = StyleSheet.create({
         color: '#a9a9a9',
         fontSize: 12,
         textDecorationLine: "underline",
+	fontFamily: 'FiraSansCondensed-Regular',
     }
 });
 

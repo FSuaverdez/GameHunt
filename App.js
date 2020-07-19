@@ -1,14 +1,11 @@
-import 'react-native-gesture-handler';
-import Ionicons from '@expo/vector-icons/Ionicons'
 import React, {useState} from 'react';
 import { NavigationContainer, DarkTheme } from '@react-navigation/native';
-import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useColorScheme } from 'react-native-appearance';
 import Icon from 'react-native-vector-icons/Ionicons';
 import * as Font from 'expo-font';
 import { AppLoading } from 'expo';
-
+import Ionicons from '@expo/vector-icons/Ionicons';
 import HomeScreen from './src/screens/HomeScreen';
 import GameScreen from './src/screens/GameScreen';
 import Header from './src/components/Header';
