@@ -45,7 +45,8 @@ const styles = StyleSheet.create({
         color: 'white',
         fontSize: 15,
         alignSelf: 'center',
-        marginHorizontal: 5
+        marginHorizontal: 5,
+        textAlign:'center',
     },
     image: {
         height: 130,

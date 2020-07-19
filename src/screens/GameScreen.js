@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ScrollView, StyleSheet, Text, View, Button, Image, FlatList, BackHandler, Linking, Alert } from 'react-native';
+import { ScrollView, StyleSheet, Text, View, Button, Image, FlatList, BackHandler, Linking, Alert, TouchableOpacity } from 'react-native';
 import useResults from '../hooks/useResults';
 import { Video } from 'expo-av';
 import RAWG from '../api/RAWG';
@@ -11,13 +11,13 @@ const GameScreen = ({ navigation, route }) => {
 
   const checkConnection = async () => {
     const response = await Network.getNetworkStateAsync();
-    
+
     if (response.isInternetReachable == false) {
       Alert.alert(
         "Connection Error",
         "Connect to the internet to continue browsing.",
         [
-          { text: "OK", onPress: () => console.log("OK Pressed") }
+          { text: "OK" }
         ],
         { cancelable: false }
       );
@@ -33,7 +33,7 @@ const GameScreen = ({ navigation, route }) => {
     }, [])
   );
 
-  const [trending, getTrending, results, setResults, top, getTop, getGames, gameInfo, getResult, screenshots, getScreens, errorMessage, getTopYear,topYear] = useResults();
+  const [trending, getTrending, results, setResults, top, getTop, getGames, gameInfo, getResult, screenshots, getScreens, errorMessage, getTopYear, topYear] = useResults();
 
   const item = route.params;
 
@@ -81,8 +81,8 @@ const GameScreen = ({ navigation, route }) => {
 
 
   useEffect(() => {
-    getResult(item.id,isMounted);
-    getScreens(item.id,isMounted);
+    getResult(item.id, isMounted);
+    getScreens(item.id, isMounted);
     checkConnection();
   }, []);
 
@@ -91,9 +91,10 @@ const GameScreen = ({ navigation, route }) => {
     return <View style={{
       flex: 1,
       alignItems: 'center',
-      justifyContent: 'center',
+      padding: 20
     }}>
-      <Text style={{ color: 'white' }}>SOMETHING WENT WRONG.....</Text>
+      <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 15 }}>SOMETHING WENT WRONG.</Text>
+      <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 15 }}>Please restart the app.</Text>
     </View>
   }
   else if (!gameInfo) {
@@ -116,18 +117,16 @@ const GameScreen = ({ navigation, route }) => {
       <Image source={{ uri: item.background_image }} style={styles.image} />
       <Text style={styles.title}>{item.name}</Text>
       <Text style={styles.rating}>Ratings: {item.rating} / 5</Text>
-      <Text style={styles.rating}>{platforms}</Text>
+      {!platforms ? null : <Text style={styles.rating}>{platforms}</Text>}
       <Text style={styles.description}>
         {gameInfo.description_raw}
-        {'\n\n\n\n'}
-        <Text style={styles.developerText}><Text style={{ fontWeight: 'bold', textDecorationLine: 'underline' }}>DEVELOPERS:</Text> {"\n"}{developers}</Text>
-        {'\n\n'}
-        <Text style={styles.developerText}><Text style={{ fontWeight: 'bold', textDecorationLine: 'underline' }}>GENRES:</Text> {"\n"}{genres}</Text>
-        {'\n\n'}
-        {item.released ? <Text style={styles.developerText}><Text style={{ fontWeight: 'bold', textDecorationLine: 'underline' }}>RELEASE DATE:</Text> {"\n"}{item.released}</Text> : null}
+        {!gameInfo.description_raw.length ? "" : '\n\n\n\n'}
+        {!developers.length ? null : <Text style={styles.developerText}><Text style={{ fontWeight: 'bold' }}>DEVELOPERS:</Text> {"\n"}{developers + '\n\n'}</Text>}
+        {!genres ? null : <Text style={styles.developerText}><Text style={{ fontWeight: 'bold' }}>GENRES:</Text> {"\n"}{genres + '\n\n'}</Text>}
+        {item.released ? <Text style={styles.developerText}><Text style={{ fontWeight: 'bold' }}>RELEASE DATE:</Text> {"\n"}{item.released}</Text> : null}
       </Text>
 
-      {!gameInfo.stores ? null : <View style={{ margin: 20 }}>
+      {!gameInfo.stores.length ? null : <View style={{ margin: 20 }}>
         <Text style={styles.clip}>Stores: </Text>
         <FlatList
           horizontal
@@ -136,10 +135,11 @@ const GameScreen = ({ navigation, route }) => {
           renderItem={({ item }) => {
             var url = item.url
             return (
-              <View style={styles.storeContainer}>
-                <Text style={styles.storeText} onPress={(em) => Linking.openURL(url)}>{item.store.name}</Text>
-              </View>
-
+              <TouchableOpacity activeOpacity={0.5} onPress={() => Linking.openURL(url)}>
+                <View style={styles.storeContainer}>
+                  <Text style={styles.storeText} >{item.store.name}</Text>
+                </View>
+              </TouchableOpacity>
             );
           }} />
       </View>}
@@ -245,7 +245,6 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: '#fff',
     marginBottom: 10,
-    marginHorizontal: 20,
   }
 });
 export default GameScreen;

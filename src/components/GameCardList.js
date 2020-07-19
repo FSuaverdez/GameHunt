@@ -7,7 +7,7 @@ const GameCardList = ({ title, data, navigation }) => {
 
     const [getTrending, results, errorMessage, refresh, setRefresh] = useResults();
 
-    if(!data){
+    if (!data) {
         return null;
     }
     return (
