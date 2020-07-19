@@ -1,9 +1,11 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 
 
 
 const GameCard = ({ item, navigation }) => {
+    
+
     if (item.parent_platforms) {
         var platforms = "";
         for (var i = 0; i < item.parent_platforms.length; i++) {
@@ -37,16 +39,18 @@ const styles = StyleSheet.create({
         justifyContent:'center',
         marginHorizontal: 5,
         paddingHorizontal:15,
-        textAlign:'center'
+        textAlign:'center',
+        fontFamily: 'FiraSansCondensed-Regular'
         
     },
     gameTitle: {
-        fontWeight: 'bold',
+        //fontWeight: 'bold',
         color: 'white',
         fontSize: 15,
         alignSelf: 'center',
         marginHorizontal: 5,
         textAlign:'center',
+        fontFamily: 'Anton-Regular'
     },
     image: {
         height: 130,

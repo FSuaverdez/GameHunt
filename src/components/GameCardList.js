@@ -31,9 +31,10 @@ const styles = StyleSheet.create({
     title: {
         color: '#fff',
         fontSize: 30,
-        fontWeight: 'bold',
+        //fontWeight: 'bold',
         margin: 10,
-        marginBottom: 15
+        marginBottom: 15,
+        fontFamily: 'Righteous-Regular'
     },
     txt2: {
         color: 'white',

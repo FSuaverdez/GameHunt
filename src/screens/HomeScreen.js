@@ -170,17 +170,19 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginHorizontal: 5,
     paddingHorizontal: 15,
-    textAlign: 'center'
+    textAlign: 'center',
+    fontFamily: 'FiraSansCondensed-Regular'
 
   },
   gameTitle: {
-    fontWeight: 'bold',
+    // fontWeight: 'bold',
     color: 'white',
     fontSize: 20,
     alignSelf: 'center',
     marginHorizontal: 5,
     textAlign: 'center',
-    marginHorizontal: 20
+    marginHorizontal: 20,
+    fontFamily: 'Anton-Regular'
   },
   image: {
     height: 200,

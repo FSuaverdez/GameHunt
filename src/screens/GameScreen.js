@@ -5,6 +5,7 @@ import { Video } from 'expo-av';
 import RAWG from '../api/RAWG';
 import * as Network from 'expo-network';
 import { useFocusEffect } from '@react-navigation/native';
+import Header from '../components/Header';
 
 const GameScreen = ({ navigation, route }) => {
 
@@ -38,7 +39,7 @@ const GameScreen = ({ navigation, route }) => {
   const item = route.params;
 
   navigation.setOptions({
-    title: item.name,
+    headerTitle: props => <Header title={item.name} />, headerTitleStyle: {fontFamily: 'ShareTechMono-Regular'}
   });
 
   var platforms = "";
@@ -181,18 +182,20 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    fontWeight: 'bold',
+    //fontWeight: 'bold',
     fontSize: 25,
     color: 'white',
     margin: 5,
-    alignSelf: 'center'
+    alignSelf: 'center',
+    fontFamily: 'Anton-Regular'
   },
   rating: {
     alignSelf: 'center',
     fontSize: 16,
     color: 'white',
     marginHorizontal: 40,
-    textAlign: 'center'
+    textAlign: 'center',
+    fontFamily: 'FiraSansCondensed-Regular'
   },
   description: {
     color: 'white',
@@ -201,6 +204,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#3d3d3d',
     padding: 20,
     borderRadius: 20,
+    fontFamily: 'FiraSansCondensed-Regular'
   },
   image: {
     alignSelf: 'center',
@@ -221,14 +225,15 @@ const styles = StyleSheet.create({
   clip: {
     color: 'white',
     fontSize: 20,
-    fontWeight: 'bold',
+    //fontWeight: 'bold',
     marginBottom: 20,
+    fontFamily: 'Anton-Regular'
   },
   screenshot: {
     height: 160,
     width: 280,
     borderRadius: 20,
-    margin: 10
+    margin: 10,
   },
   storeText: {
     color: 'white',
@@ -237,6 +242,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#3d3d3d',
     padding: 15,
     borderRadius: 20,
+    fontFamily: 'FiraSansCondensed-Regular'
   },
   storeContainer: {
     marginVertical: 10
