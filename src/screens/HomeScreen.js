@@ -5,10 +5,13 @@ import useResults from '../hooks/useResults';
 import SearchBar from '../components/SearchBar';
 import { useFocusEffect } from '@react-navigation/native';
 import * as Network from 'expo-network';
+import * as ScreenOrientation from 'expo-screen-orientation';
+
 
 const HomeScreen = ({ navigation }) => {
   const [term, setTerm] = useState('');
   const [isMounted, setMount] = useState(true);
+
 
   const [trending, getTrending, results, setResults, top, getTop, getGames, gameInfo, getResult, screenshots, getScreens, errorMessage, getTopYear, topYear] = useResults();
 
@@ -43,6 +46,7 @@ const HomeScreen = ({ navigation }) => {
   );
 
 
+  ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.ALL);
 
 
   if (errorMessage !== null) {
@@ -50,9 +54,10 @@ const HomeScreen = ({ navigation }) => {
     return <View style={{
       flex: 1,
       alignItems: 'center',
-      justifyContent: 'center',
+      padding: 20
     }}>
-      <Text style={{ color: 'white' }}>SOMETHING WENT WRONG.....</Text>
+      <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 15 }}>SOMETHING WENT WRONG.</Text>
+      <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 15 }}>Please restart the app and make sure you have internet connection.</Text>
     </View>
   }
   else if (!top && !trending) {
@@ -100,13 +105,13 @@ const HomeScreen = ({ navigation }) => {
             navigation={navigation} />
         </ScrollView>
         :
-         results&&results.length==0 ?
+        results && results.length == 0 ?
           <View style={{
             flex: 1,
             alignItems: 'center',
-            padding:20
+            padding: 20
           }}>
-            <Text style={{color:'white',fontWeight:'bold', fontSize:25}}>No Results Found!</Text>
+            <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 25 }}>No Results Found!</Text>
           </View>
           :
           <FlatList

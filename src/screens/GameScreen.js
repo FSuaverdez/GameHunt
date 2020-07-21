@@ -6,6 +6,7 @@ import RAWG from '../api/RAWG';
 import * as Network from 'expo-network';
 import { useFocusEffect } from '@react-navigation/native';
 import Header from '../components/Header';
+import * as ScreenOrientation from 'expo-screen-orientation';
 
 const GameScreen = ({ navigation, route }) => {
 
@@ -39,7 +40,7 @@ const GameScreen = ({ navigation, route }) => {
   const item = route.params;
 
   navigation.setOptions({
-    headerTitle: props => <Header title={item.name} />, headerTitleStyle: {fontFamily: 'ShareTechMono-Regular'}
+    headerTitle: props => <Header title={item.name} />, headerTitleStyle: { fontFamily: 'ShareTechMono-Regular' }
   });
 
   var platforms = "";
@@ -95,7 +96,7 @@ const GameScreen = ({ navigation, route }) => {
       padding: 20
     }}>
       <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 15 }}>SOMETHING WENT WRONG.</Text>
-      <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 15 }}>Please restart the app.</Text>
+      <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 15 }}>Please restart the app and make sure you have internet connection.</Text>
     </View>
   }
   else if (!gameInfo) {
@@ -109,6 +110,8 @@ const GameScreen = ({ navigation, route }) => {
       <Image source={require('../../assets/loading.png')} style={{ height: 100, width: 160 }} />
     </View>
   }
+
+  ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.ALL);
 
 
 
@@ -153,7 +156,7 @@ const GameScreen = ({ navigation, route }) => {
           rate={1.0}
           volume={1.0}
           isMuted={false}
-          resizeMode="cover"
+          resizeMode="contain"
           shouldPlay={false}
         />
       </View>}
