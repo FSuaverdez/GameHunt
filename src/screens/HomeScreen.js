@@ -56,8 +56,8 @@ const HomeScreen = ({ navigation }) => {
       alignItems: 'center',
       padding: 20
     }}>
-      <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 15 }}>SOMETHING WENT WRONG.</Text>
-      <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 15 }}>Please restart the app and make sure you have internet connection.</Text>
+      <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 15, textAlign: 'center' }}>SOMETHING WENT WRONG.</Text>
+      <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 15, textAlign: 'center' }}>Please restart the app and make sure you have internet connection.</Text>
     </View>
   }
   else if (!top && !trending) {

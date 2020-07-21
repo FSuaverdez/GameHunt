@@ -18,11 +18,14 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "requireFullScreen": true,
+      "requireFullScreen": true
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "description": ""
+    "description": "",
+    "android": {
+      "package": "com.fsuaverdez.GameHunt"
+    }
   }
 }
