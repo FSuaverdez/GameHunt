@@ -1,4 +1,4 @@
-# GameHunt (Unfinished)
+# GameHunt
 ## [Powered by RAWG](https://rawg.io/)
 
 
